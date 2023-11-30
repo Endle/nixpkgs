@@ -21,6 +21,7 @@
 , wrapGAppsHook4
 , sqlite
 , xdg-desktop-portal
+, cmake
 }:
 
 stdenv.mkDerivation rec {
@@ -59,6 +60,7 @@ stdenv.mkDerivation rec {
   ];
 
   buildInputs = [
+    cmake
     glib
     gtk4
     gtksourceview5
