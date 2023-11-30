@@ -64,10 +64,10 @@ stdenv.mkDerivation rec {
     gtksourceview5
     libadwaita
     openssl
-    pipewire
+  #  pipewire
     libshumate
     sqlite
-    xdg-desktop-portal
+  #  xdg-desktop-portal
   ] ++ (with gst_all_1; [
     gstreamer
     gst-plugins-base
