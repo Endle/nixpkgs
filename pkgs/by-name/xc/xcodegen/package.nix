@@ -4,6 +4,7 @@
 , swift
 , swiftpm
 , swiftpm2nix
+, Foundation
 }:
 
 stdenv.mkDerivation rec {
