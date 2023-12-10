@@ -1,51 +1,39 @@
-{ lib, stdenv
-, fetchurl
-, autoreconfHook
-, dbus
-, gettext
-, gnutls
-, libfilezilla
-, libidn
-, nettle
-, pkg-config
-, pugixml
-, sqlite
-, tinyxml
-, wrapGAppsHook
-, wxGTK32
-, gtk3
-, xdg-utils
+{ lib,
+  stdenv,
+  fetchFromGitHub,
 }:
 
 stdenv.mkDerivation rec {
-  pname = "filezilla";
-  version = "3.63.1";
+  pname = "xcodegen";
+  version = "2.38.0";
 
-  src = fetchurl {
-    url = "https://download.filezilla-project.org/client/FileZilla_${version}_src.tar.bz2";
-    hash = "sha256-TgtcD3n0+LykuiHnE7qXuG1bRcRyPeZ7nBDSO/QXo38=";
+  src = fetchFromGitHub {
+    owner = "yonaskolb";
+    repo = "XcodeGen";
+    rev = "${version}";
+    sha256 = "sha256-5N0ZNQec1DUV4rWqqOC1Aikn+RKrG8it0Ee05HG2mn4=";
   };
 
   configureFlags = [
-    "--disable-manualupdatecheck"
-    "--disable-autoupdatecheck"
+    # "--disable-manualupdatecheck"
+    # "--disable-autoupdatecheck"
   ];
 
-  nativeBuildInputs = [ autoreconfHook pkg-config wrapGAppsHook ];
+  # nativeBuildInputs = [ autoreconfHook pkg-config wrapGAppsHook ];
 
   buildInputs = [
-    dbus
-    gettext
-    gnutls
-    libfilezilla
-    libidn
-    nettle
-    pugixml
-    sqlite
-    tinyxml
-    wxGTK32
-    gtk3
-    xdg-utils
+    # dbus
+    # gettext
+    # gnutls
+    # libfilezilla
+    # libidn
+    # nettle
+    # pugixml
+    # sqlite
+    # tinyxml
+    # wxGTK32
+    # gtk3
+    # xdg-utils
   ];
 
   enableParallelBuilding = true;
