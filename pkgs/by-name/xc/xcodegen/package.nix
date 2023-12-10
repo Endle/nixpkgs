@@ -4,7 +4,6 @@
 , swift
 , swiftpm
 , swiftpm2nix
-, Foundation
 }:
 
 stdenv.mkDerivation rec {
@@ -27,6 +26,7 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     swift
+    swiftpm
     # dbus
     # gettext
     # gnutls
