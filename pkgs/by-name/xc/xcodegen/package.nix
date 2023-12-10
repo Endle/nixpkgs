@@ -1,6 +1,9 @@
-{ lib,
-  stdenv,
-  fetchFromGitHub,
+{ lib
+, stdenv
+, fetchFromGitHub
+, swift
+, swiftpm
+, swiftpm2nix
 }:
 
 stdenv.mkDerivation rec {
@@ -22,6 +25,7 @@ stdenv.mkDerivation rec {
   # nativeBuildInputs = [ autoreconfHook pkg-config wrapGAppsHook ];
 
   buildInputs = [
+    swift
     # dbus
     # gettext
     # gnutls
