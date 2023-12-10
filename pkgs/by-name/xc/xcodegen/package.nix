@@ -1,65 +1,66 @@
-{ lib
-, fetchFromGitHub
-, python3Packages
-, qt6
-, fetchpatch
+{ lib, stdenv
+, fetchurl
+, autoreconfHook
+, dbus
+, gettext
+, gnutls
+, libfilezilla
+, libidn
+, nettle
+, pkg-config
+, pugixml
+, sqlite
+, tinyxml
+, wrapGAppsHook
+, wxGTK32
+, gtk3
+, xdg-utils
 }:
 
-python3Packages.buildPythonApplication rec {
-  pname = "zapzap";
-  version = "4.5.5.2";
-  format = "setuptools";
+stdenv.mkDerivation rec {
+  pname = "filezilla";
+  version = "3.63.1";
 
-  src = fetchFromGitHub {
-    owner = "zapzap-linux";
-    repo = "zapzap";
-    rev = version;
-    hash = "sha256-8IeFGTI+5kbeFGqH5DpHCY8pqzGhE48hPCEIKIe7jAM=";
+  src = fetchurl {
+    url = "https://download.filezilla-project.org/client/FileZilla_${version}_src.tar.bz2";
+    hash = "sha256-TgtcD3n0+LykuiHnE7qXuG1bRcRyPeZ7nBDSO/QXo38=";
   };
 
-  patches = [
-    # fixes that the tray icon was not installed
-    (fetchpatch {
-      url = "https://github.com/zapzap-linux/zapzap/pull/25/commits/4107b019555492e2c2692dd4c40553503047e6a8.patch";
-      hash = "sha256-NQPGPXYFhVwsPXopEELG1n/f8yUj/74OFE1hTyt93Ng=";
-    })
+  configureFlags = [
+    "--disable-manualupdatecheck"
+    "--disable-autoupdatecheck"
   ];
 
-  nativeBuildInputs = with python3Packages; [
-    setuptools
-    qt6.wrapQtAppsHook
-  ];
+  nativeBuildInputs = [ autoreconfHook pkg-config wrapGAppsHook ];
 
   buildInputs = [
-    qt6.qtwayland
-    qt6.qtsvg
+    dbus
+    gettext
+    gnutls
+    libfilezilla
+    libidn
+    nettle
+    pugixml
+    sqlite
+    tinyxml
+    wxGTK32
+    gtk3
+    xdg-utils
   ];
 
-  preBuild = ''
-    export HOME=$(mktemp -d)
-  '';
-
-  propagatedBuildInputs = with python3Packages; [
-    dbus-python
-    pyqt6
-    pyqt6-webengine
-    pyqt6-sip
-  ];
-
-  postInstall = ''
-    install -Dm555 share/applications/com.rtosta.zapzap.desktop -t $out/share/applications/
-    install -Dm555 share/icons/com.rtosta.zapzap.svg -t $out/share/icons/hicolor/scalable/
-  '';
-
-  # has no tests
-  doCheck = false;
+  enableParallelBuilding = true;
 
   meta = with lib; {
-    description = "WhatsApp desktop application for Linux";
-    homepage = "https://zapzap-linux.github.io/";
-    mainProgram = "zapzap";
-    license = licenses.gpl3Only;
-    changelog = "https://github.com/zapzap-linux/zapzap/releases/tag/${version}";
-    maintainers = [ maintainers.eymeric ];
+    homepage = "https://filezilla-project.org/";
+    description = "Graphical FTP, FTPS and SFTP client";
+    longDescription = ''
+      FileZilla Client is a free, open source FTP client. It supports
+      FTP, SFTP, and FTPS (FTP over SSL/TLS). The client is available
+      under many platforms, binaries for Windows, Linux and macOS are
+      provided.
+    '';
+    license = licenses.gpl2;
+    platforms = platforms.darwin;
+    maintainers = with maintainers; [ pSub ];
   };
 }
