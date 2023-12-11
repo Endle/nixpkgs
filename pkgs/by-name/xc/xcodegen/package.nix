@@ -5,6 +5,7 @@
 , swiftpm
 , swiftpm2nix
 , swiftPackages
+, Foundation
 , XCTest
 }:
 
@@ -26,6 +27,7 @@ stdenv.mkDerivation rec {
     swift
     swiftpm
     XCTest
+    Foundation
   ];
 
 
