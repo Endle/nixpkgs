@@ -4,6 +4,8 @@
 , swift
 , swiftpm
 , swiftpm2nix
+, swiftPackages
+, XCTest
 }:
 
 stdenv.mkDerivation rec {
@@ -17,31 +19,15 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-5N0ZNQec1DUV4rWqqOC1Aikn+RKrG8it0Ee05HG2mn4=";
   };
 
-  configureFlags = [
-    # "--disable-manualupdatecheck"
-    # "--disable-autoupdatecheck"
-  ];
 
   # nativeBuildInputs = [ autoreconfHook pkg-config wrapGAppsHook ];
 
   buildInputs = [
     swift
     swiftpm
-    # dbus
-    # gettext
-    # gnutls
-    # libfilezilla
-    # libidn
-    # nettle
-    # pugixml
-    # sqlite
-    # tinyxml
-    # wxGTK32
-    # gtk3
-    # xdg-utils
+    XCTest
   ];
 
-  enableParallelBuilding = true;
 
   meta = with lib; {
     homepage = "https://filezilla-project.org/";
