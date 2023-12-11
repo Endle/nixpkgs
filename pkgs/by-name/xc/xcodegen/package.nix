@@ -32,16 +32,13 @@ stdenv.mkDerivation rec {
 
 
   meta = with lib; {
-    homepage = "https://filezilla-project.org/";
-    description = "Graphical FTP, FTPS and SFTP client";
+    homepage = "https://github.com/yonaskolb/XcodeGen";
+    description = "A Swift command line tool for generating your Xcode project";
     longDescription = ''
-      FileZilla Client is a free, open source FTP client. It supports
-      FTP, SFTP, and FTPS (FTP over SSL/TLS). The client is available
-      under many platforms, binaries for Windows, Linux and macOS are
-      provided.
+      XcodeGen is a command line tool written in Swift that generates your Xcode project using your folder structure and a project spec.
     '';
-    license = licenses.gpl2;
+    license = licenses.mit;
     platforms = platforms.darwin;
-    maintainers = with maintainers; [ pSub ];
+    maintainers = with maintainers; [ endle ];
   };
 }
