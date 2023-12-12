@@ -5,8 +5,7 @@
 , swiftpm
 , swiftpm2nix
 , swiftPackages
-, Foundation
-, XCTest
+, darwin
 }:
 
 stdenv.mkDerivation rec {
@@ -26,8 +25,8 @@ stdenv.mkDerivation rec {
   buildInputs = [
     swift
     swiftpm
-    XCTest
-    Foundation
+    # XCTest
+    # Foundation
   ];
 
 
