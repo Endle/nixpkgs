@@ -37,6 +37,8 @@ stdenv.mkDerivation rec {
     # Foundation
   ];
 
+  enableParallelBuilding = false;
+
 
   meta = with lib; {
     homepage = "https://github.com/yonaskolb/XcodeGen";
