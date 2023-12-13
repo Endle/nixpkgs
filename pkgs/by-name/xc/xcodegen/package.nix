@@ -23,7 +23,7 @@ stdenv.mkDerivation rec {
 
   patches = [
     ./0001-Fix-git-URL-scheme.patch
-    ./0002-Bump-Spectre-Version.patch
+    ./0002-Bump-Spectre-Version.patch # Workaround build failures caused by XCTest.swift in Spectre
   ];
 
 
