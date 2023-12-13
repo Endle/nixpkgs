@@ -45,6 +45,11 @@ stdenv.mkDerivation rec {
     # Foundation
   ];
 
+  installPhase = ''
+    mkdir -p $out/bin
+    cp .build/release/xcodegen $out/bin
+  '';
+
   enableParallelBuilding = true;
 
 
