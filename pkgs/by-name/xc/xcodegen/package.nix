@@ -3,7 +3,7 @@
 , fetchFromGitHub
 , swift
 , swiftpm
-, swiftpm2nix
+# , swiftpm2nix
 , swiftPackages
 , darwin
 }:
@@ -19,12 +19,17 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-5N0ZNQec1DUV4rWqqOC1Aikn+RKrG8it0Ee05HG2mn4=";
   };
 
+  patches = [
+    ./0001-Fix-git-URL-scheme.patch
+  ];
+
 
   # nativeBuildInputs = [ autoreconfHook pkg-config wrapGAppsHook ];
 
   buildInputs = [
     swift
     swiftpm
+    darwin.apple_sdk.frameworks.Foundation
     # XCTest
     # Foundation
   ];
