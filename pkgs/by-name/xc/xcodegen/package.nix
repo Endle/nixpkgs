@@ -7,6 +7,7 @@
 , swiftPackages
 , darwin
 , xcbuild
+, cacert # Required by git during build process
 }:
 
 stdenv.mkDerivation rec {
@@ -34,10 +35,11 @@ stdenv.mkDerivation rec {
     swiftPackages.XCTest
     swiftPackages.Foundation
     xcbuild # for xcrun
+    cacert
     # Foundation
   ];
 
-  enableParallelBuilding = false;
+  enableParallelBuilding = true;
 
 
   meta = with lib; {
