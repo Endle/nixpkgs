@@ -23,10 +23,15 @@ stdenv.mkDerivation rec {
 
   patches = [
     ./0001-Fix-git-URL-scheme.patch
+    ./0002-Bump-Spectre-Version.patch
   ];
 
 
   # nativeBuildInputs = [ autoreconfHook pkg-config wrapGAppsHook ];
+  nativeBuildInputs = [
+
+    darwin.apple_sdk.frameworks.Foundation
+  ];
 
   buildInputs = [
     swift
