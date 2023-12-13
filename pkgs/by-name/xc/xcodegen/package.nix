@@ -30,7 +30,7 @@ stdenv.mkDerivation rec {
     swift
     swiftpm
     darwin.apple_sdk.frameworks.Foundation
-    # XCTest
+    swiftPackages.XCTest
     # Foundation
   ];
 
