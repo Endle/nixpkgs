@@ -6,6 +6,7 @@
 # , swiftpm2nix
 , swiftPackages
 , darwin
+, xcbuild
 }:
 
 stdenv.mkDerivation rec {
@@ -31,6 +32,8 @@ stdenv.mkDerivation rec {
     swiftpm
     darwin.apple_sdk.frameworks.Foundation
     swiftPackages.XCTest
+    swiftPackages.Foundation
+    xcbuild # for xcrun
     # Foundation
   ];
 
