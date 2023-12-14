@@ -22,6 +22,7 @@
 , sqlite
 , xdg-desktop-portal
 , cmake
+, bison
 }:
 
 stdenv.mkDerivation rec {
@@ -60,6 +61,7 @@ stdenv.mkDerivation rec {
   ];
 
   buildInputs = [
+  bison # when compiling gettext-sys on mac, this is needed
     cmake
     glib
     gtk4
