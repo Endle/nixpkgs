@@ -23,6 +23,7 @@
 , xdg-desktop-portal
 , cmake
 , bison
+, darwin
 }:
 
 stdenv.mkDerivation rec {
@@ -58,10 +59,11 @@ stdenv.mkDerivation rec {
     desktop-file-utils
     appstream-glib
     wrapGAppsHook4
+    darwin.apple_sdk.frameworks.Foundation
   ];
 
   buildInputs = [
-  bison # when compiling gettext-sys on mac, this is needed
+    bison # when compiling matrix-sdk-sqlite on mac, this is needed
     cmake
     glib
     gtk4
