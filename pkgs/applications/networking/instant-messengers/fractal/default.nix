@@ -21,6 +21,9 @@
 , wrapGAppsHook4
 , sqlite
 , xdg-desktop-portal
+, cmake
+, bison
+, darwin
 }:
 
 stdenv.mkDerivation rec {
@@ -56,18 +59,21 @@ stdenv.mkDerivation rec {
     desktop-file-utils
     appstream-glib
     wrapGAppsHook4
+    darwin.apple_sdk.frameworks.Foundation
   ];
 
   buildInputs = [
+    bison # when compiling matrix-sdk-sqlite on mac, this is needed
+    cmake
     glib
     gtk4
     gtksourceview5
     libadwaita
     openssl
-    pipewire
+  #  pipewire
     libshumate
     sqlite
-    xdg-desktop-portal
+  #  xdg-desktop-portal
   ] ++ (with gst_all_1; [
     gstreamer
     gst-plugins-base
@@ -84,7 +90,6 @@ stdenv.mkDerivation rec {
     homepage = "https://gitlab.gnome.org/GNOME/fractal";
     license = licenses.gpl3Plus;
     maintainers = teams.gnome.members ++ (with maintainers; [ anselmschueler dtzWill ]);
-    platforms = platforms.linux;
     mainProgram = "fractal";
   };
 }
