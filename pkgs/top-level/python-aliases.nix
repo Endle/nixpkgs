@@ -76,6 +76,7 @@ mapAliases ({
   buildbot-pkg = throw "buildbot-pkg has been removed, it's only internally used in buildbot"; # added 2022-04-07
   bt_proximity = bt-proximity; # added 2021-07-02
   BTrees = btrees; # added 2023-02-19
+  cacheyou = throw "cacheyou has been removed, as it was no longer used for the only consumer pdm"; # added 2023-12-21
   carrot = throw "carrot has been removed, as its development was discontinued in 2012"; # added 2022-01-18
   cchardet = faust-cchardet; # added 2023-03-02
   class-registry = phx-class-registry; # added 2021-10-05
@@ -225,6 +226,8 @@ mapAliases ({
   lazy_imports = lazy-imports; # added 2023-10-13
   lektor = throw "lektor has been promoted to a top-level attribute"; # added 2023-08-01
   line_profiler = line-profiler; # added 2023-11-04
+  livestreamer = throw "'livestreamer' has been removed, as it unmaintained. A currently maintained fork is 'streamlink'."; # added 2023-11-14
+  livestreamer-curses = throw "'livestreamer-curses' has been removed as it, and livestreamer itself are unmaintained."; # added 2023-11-14
   logilab_astng = throw "logilab-astng has not been released since 2013 and is unmaintained"; # added 2022-11-29
   logilab_common = logilab-common; # added 2022-11-21
   loo-py = loopy; # added 2022-05-03
@@ -310,6 +313,7 @@ mapAliases ({
   pymssql = throw "pymssql has been abandoned upstream."; # added 2020-05-04
   PyMVGLive = pymvglive; # added 2023-02-19
   pymyq = python-myq; # added 2023-10-20
+  python-myq = throw "python-myq has been removed, as the service provider has decided to block its API requests"; # added 2023-12-07
   pyqt4 = throw "pyqt4 has been removed, because it depended on the long EOL qt4"; # added 2022-06-09
   pyramid_beaker = pyramid-beaker; # added 2023-08-23
   pyramid_chameleon = pyramid-chameleon; # added 2023-08-23
@@ -462,16 +466,19 @@ mapAliases ({
   xenomapper = throw "xenomapper was moved to pkgs.xenomapper"; # added 2021-12-31
   XlsxWriter = xlsxwriter; # added 2023-02-19
   Yapsy = yapsy; # added 2023-02-19
+  z3 = z3-solver; # added 2023-12-03
   zake = throw "zake has been removed because it is abandoned"; # added 2023-06-20
   zc-buildout221 = zc-buildout; # added 2021-07-21
   zc_buildout_nix = throw "zc_buildout_nix was pinned to a version no longer compatible with other modules";
   zope_broken = throw "zope_broken has been removed because it is obsolete and not needed in zodb>=3.10"; # added 2023-07-26
   zope_component = zope-component; # added 2023-07-28
+  zope_configuration = zope-configuration; # added 2023-11-12
   zope_contenttype = zope-contenttype; # added 2023-10-11
   zope_deprecation = zope-deprecation; # added 2023-10-07
   zope_dottedname = zope-dottedname; # added 2023-11-12
   zope_i18nmessageid = zope-i18nmessageid; # added 2023-07-29
   zope_lifecycleevent = zope-lifecycleevent; # added 2023-10-11
   zope_proxy = zope-proxy; # added 2023-10-07
+  zope_testing = zope-testing; # added 2023-11-12
   zxing_cpp = zxing-cpp; # added 2023-11-05
 })

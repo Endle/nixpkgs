@@ -290,6 +290,7 @@ with lib.maintainers; {
     members = [
       theuni
       dpausp
+      frlan
       leona
     ];
     scope = "Team for Flying Circus employees who collectively maintain packages.";
@@ -317,6 +318,8 @@ with lib.maintainers; {
       das-g
       imincik
       nh2
+      nialov
+      r-burns
       sikmir
       willcohen
     ];
@@ -401,6 +404,16 @@ with lib.maintainers; {
     enableFeatureFreezePing = true;
   };
 
+  helsinki-systems = {
+    # Verify additions to this team with at least one already existing member of the team.
+    members = [
+      ajs124
+      das_j
+    ];
+    scope = "Group registration for packages maintained by Helsinki Systems";
+    shortName = "Helsinki Systems employees";
+  };
+
   home-assistant = {
     members = [
       fab
@@ -428,6 +441,7 @@ with lib.maintainers; {
       cleeyv
       ryantm
       lassulus
+      yayayayaka
     ];
     scope = "Maintain Jitsi.";
     shortName = "Jitsi";
@@ -510,7 +524,6 @@ with lib.maintainers; {
       dtzWill
       ericson2314
       lovek323
-      primeos
       qyliss
       raitobezarius
       rrbutani
@@ -559,6 +572,18 @@ with lib.maintainers; {
     scope = "Maintain lumina desktop environment and related packages.";
     shortName = "Lumina";
     enableFeatureFreezePing = true;
+  };
+
+  lxc = {
+    members = [
+      aanderse
+      adamcstephens
+      jnsgruk
+      megheaiulian
+      mkg20001
+    ];
+    scope = "All things linuxcontainers. LXC, Incus, LXD and related packages.";
+    shortName = "lxc";
   };
 
   lxqt = {
@@ -741,7 +766,6 @@ with lib.maintainers; {
 
   podman = {
     members = [
-      adisbladis
       saschagrunert
       vdemeester
     ];

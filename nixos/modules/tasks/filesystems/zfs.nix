@@ -17,6 +17,9 @@ let
   cfgZED = config.services.zfs.zed;
 
   selectModulePackage = package: config.boot.kernelPackages.${package.kernelModuleAttribute};
+  clevisDatasets = map (e: e.device) (filter (e: e.device != null && (hasAttr e.device config.boot.initrd.clevis.devices) && e.fsType == "zfs" && (fsNeededForBoot e)) config.system.build.fileSystems);
+
+
   inInitrd = any (fs: fs == "zfs") config.boot.initrd.supportedFilesystems;
   inSystem = any (fs: fs == "zfs") config.boot.supportedFilesystems;
 
@@ -120,14 +123,15 @@ let
       # but don't *require* it, because mounts shouldn't be killed if it's stopped.
       # In the future, hopefully someone will complete this:
       # https://github.com/zfsonlinux/zfs/pull/4943
-      wants = [ "systemd-udev-settle.service" ];
+      wants = [ "systemd-udev-settle.service" ] ++ optional (config.boot.initrd.clevis.useTang) "network-online.target";
       after = [
         "systemd-udev-settle.service"
         "systemd-modules-load.service"
         "systemd-ask-password-console.service"
-      ];
+      ] ++ optional (config.boot.initrd.clevis.useTang) "network-online.target";
       requiredBy = getPoolMounts prefix pool ++ [ "zfs-import.target" ];
-      before = getPoolMounts prefix pool ++ [ "zfs-import.target" ];
+      before = getPoolMounts prefix pool ++ [ "shutdown.target" "zfs-import.target" ];
+      conflicts = [ "shutdown.target" ];
       unitConfig = {
         DefaultDependencies = "no";
       };
@@ -154,6 +158,9 @@ let
           poolImported "${pool}" || poolImport "${pool}"  # Try one last time, e.g. to import a degraded pool.
         fi
         if poolImported "${pool}"; then
+        ${optionalString config.boot.initrd.clevis.enable (concatMapStringsSep "\n" (elem: "clevis decrypt < /etc/clevis/${elem}.jwe | zfs load-key ${elem} || true ") (filter (p: (elemAt (splitString "/" p) 0) == pool) clevisDatasets))}
+
+
           ${optionalString keyLocations.hasKeys ''
             ${keyLocations.command} | while IFS=$'\t' read ds kl ks; do
               {
@@ -502,9 +509,15 @@ in
     };
 
     services.zfs.zed = {
-      enableMail = mkEnableOption (lib.mdDoc "ZED's ability to send emails") // {
-        default = cfgZfs.package.enableMail;
-        defaultText = literalExpression "config.${optZfs.package}.enableMail";
+      enableMail = mkOption {
+        type = types.bool;
+        default = config.services.mail.sendmailSetuidWrapper != null;
+        defaultText = literalExpression ''
+          config.services.mail.sendmailSetuidWrapper != null
+        '';
+        description = mdDoc ''
+          Whether to enable ZED's ability to send emails.
+        '';
       };
 
       settings = mkOption {
@@ -543,14 +556,6 @@ in
         {
           assertion = cfgZfs.modulePackage.version == cfgZfs.package.version;
           message = "The kernel module and the userspace tooling versions are not matching, this is an unsupported usecase.";
-        }
-        {
-          assertion = cfgZED.enableMail -> cfgZfs.package.enableMail;
-          message = ''
-            To allow ZED to send emails, ZFS needs to be configured to enable
-            this. To do so, one must override the `zfs` package and set
-            `enableMail` to true.
-          '';
         }
         {
           assertion = config.networking.hostId != null;
@@ -623,6 +628,9 @@ in
               fi
               poolImported "${pool}" || poolImport "${pool}"  # Try one last time, e.g. to import a degraded pool.
             fi
+
+            ${optionalString config.boot.initrd.clevis.enable (concatMapStringsSep "\n" (elem: "clevis decrypt < /etc/clevis/${elem}.jwe | zfs load-key ${elem}") (filter (p: (elemAt (splitString "/" p) 0) == pool) clevisDatasets))}
+
             ${if isBool cfgZfs.requestEncryptionCredentials
               then optionalString cfgZfs.requestEncryptionCredentials ''
                 zfs load-key -a
@@ -662,7 +670,13 @@ in
       };
 
       services.zfs.zed.settings = {
-        ZED_EMAIL_PROG = mkIf cfgZED.enableMail (mkDefault "${pkgs.mailutils}/bin/mail");
+        ZED_EMAIL_PROG = mkIf cfgZED.enableMail (mkDefault (
+          config.security.wrapperDir + "/" +
+          config.services.mail.sendmailSetuidWrapper.program
+        ));
+        # subject in header for sendmail
+        ZED_EMAIL_OPTS = mkIf cfgZED.enableMail (mkDefault "@ADDRESS@");
+
         PATH = lib.makeBinPath [
           cfgZfs.package
           pkgs.coreutils

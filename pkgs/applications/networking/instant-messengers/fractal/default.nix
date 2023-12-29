@@ -90,6 +90,7 @@ stdenv.mkDerivation rec {
     homepage = "https://gitlab.gnome.org/GNOME/fractal";
     license = licenses.gpl3Plus;
     maintainers = teams.gnome.members ++ (with maintainers; [ anselmschueler dtzWill ]);
+    platforms = platforms.linux;
     mainProgram = "fractal";
   };
 }
